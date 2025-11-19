@@ -8,4 +8,14 @@ public class Journal {
         allMovies = new HashMap<>();
         ratings = new HashMap<>();
     }
+    
+    public void addMovie(Movie m) {
+        allMovies.put(m.getTitle(), m);
+    }
+
+    public boolean containsMovie(String title) {
+        return allMovies.containsKey(title);
+    }
+
+
 }

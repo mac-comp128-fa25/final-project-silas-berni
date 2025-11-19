@@ -20,7 +20,7 @@ public class Movie {
         return movieId;
     }
 
-    private String getTitle() {
+    public String getTitle() {
         return title;
     }
 
