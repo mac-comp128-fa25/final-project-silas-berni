@@ -6,34 +6,12 @@ import java.util.HashMap;
  */
 
 public class Journal {
-    private HashMap <String, Movie> allMovies;
     private HashMap <Movie, Integer> userMovies;
 
     public Journal(){
-        allMovies = new HashMap<>();
         userMovies = new HashMap<>();
     }
     
-    /**
-    * Adds movie to the Movie database
-    */
-    public void addMovie(Movie m) {
-        allMovies.put(m.getTitle(), m);
-    }
-    
-    /**
-    * Checks if the Movie database contains a movie
-    */
-    public boolean containsMovie(String title) {
-        return allMovies.containsKey(title);
-    }
-
-    /**
-    * Gets movie from the database
-    */
-    public Movie getMovie(String title){
-        return allMovies.get(title);
-    }
 
     /**
     * Allows user to log a movie and its rating to the user's Journal
@@ -59,12 +37,6 @@ public class Journal {
         return userMovies.getOrDefault(m, -1); 
     }
 
-    /**
-    * Returns all movies in the database
-    */
-    public Collection<Movie> getAllMovies() {
-        return allMovies.values();
-    }
 
     /**
     * Returns all movies in the user's journal
