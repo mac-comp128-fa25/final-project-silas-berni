@@ -16,12 +16,12 @@ public class Journal {
     /**
     * Allows user to log a movie and its rating to the user's Journal
     */
-    public void logMovie(String title, int rating){
-        Movie m = allMovies.get(title);
-        if (m != null){
-            userMovies.put(m, rating);
-        }
-    }
+    // public void logMovie(String title, int rating){
+    //     Movie m = allMovies.get(title);
+    //     if (m != null){
+    //         userMovies.put(m, rating);
+    //     }
+    // }
 
     /**
     * Checks if a movie is in the user's journal

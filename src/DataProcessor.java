@@ -1,10 +1,15 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class DataProcessor {
     
@@ -16,7 +21,21 @@ public class DataProcessor {
     }
 
     public static void main(String[]args) {
-        FileReader fileReader = new FileReader("Test CSV File - Sheet1.csv");
-        CSVReader reader = new CSVReader(fileReader);
+        try (InputStream inputStream = DataProcessor.class.getClassLoader()
+            .getResourceAsStream("data.csv");
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+        CSVReader reader = new CSVReader(inputStreamReader)) {
+    
+        String[] nextLine;
+        while ((nextLine = reader.readNext()) != null) {
+        System.out.println(String.join(", ", nextLine));
+        }
+    } catch (IOException | CsvValidationException e) {
+        System.out.println("Error: " + e.getMessage());
+        e.printStackTrace();
+    }
+
+    List<String[]> allLines = new ArrayList<>();
+    System.err.println(allLines);
     }
 }
