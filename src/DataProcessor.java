@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
@@ -21,6 +22,7 @@ public class DataProcessor {
     }
 
     public static void main(String[]args) {
+        List<String[]> allLines = new ArrayList<>();
         try (InputStream inputStream = DataProcessor.class.getClassLoader()
             .getResourceAsStream("data.csv");
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -28,14 +30,20 @@ public class DataProcessor {
     
         String[] nextLine;
         while ((nextLine = reader.readNext()) != null) {
-        System.out.println(String.join(", ", nextLine));
+            allLines.add(nextLine);
+        System.out.println(allLines);
+        allLines.size();
+        // System.out.println(String.join(", ", nextLine));
         }
     } catch (IOException | CsvValidationException e) {
         System.out.println("Error: " + e.getMessage());
         e.printStackTrace();
     }
 
-    List<String[]> allLines = new ArrayList<>();
-    System.err.println(allLines);
+    int size =  allLines.size();
+    System.out.println(size);
+    String movie4= allLines.get(1).toString();
+    String [] chars = movie4.split("',");
+    System.out.println(chars.toString());
     }
 }
