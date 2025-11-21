@@ -1,24 +1,33 @@
 import java.util.List;
 
+import com.opencsv.bean.CsvBindByName;
+
 public class Movie {
-
-    private int movieId;
+    
+    private String[] genres;
+   
+    private String[] keywords;
+   
     private String title;
+   
+    private String cast;
+  
     private String director;
-    private List<String> leadActors;
-    private List<String> genres;
+    
 
-    public Movie(int movieId, String title, String director, List<String> leadActors, List<String> genres) {
-        this.movieId = movieId;
+
+    public Movie(String title, String director, String cast, String[] genres, String[] keywords) {
         this.title = title;
         this.director = director;
-        this.leadActors = leadActors;
+        this.cast = cast;
         this.genres = genres;
+        this.keywords = keywords;
     }
 
-    private int getMovieId() {
-        return movieId;
+    public Movie(){
+
     }
+
 
     public String getTitle() {
         return title;
@@ -28,12 +37,28 @@ public class Movie {
         return director;
     }
 
-    private List<String> getLeadActors() {
-        return leadActors;
+    private String getLeadActors() {
+        return cast;
     }
 
-    private List<String> getGenres() {
+    private String[] getGenres() {
         return genres;
+    }
+
+    public void setTitle(String newTitle) {
+        title = newTitle;
+    }
+
+    public void setGenres(String[] newGenres) {
+        genres = newGenres;
+    }
+
+    public void setKeywords(String[] newKeywords) {
+        keywords = newKeywords;
+    }
+
+    public void setDirector(String newDirector) {
+        director = newDirector;
     }
 }
 
