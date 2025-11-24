@@ -4,18 +4,11 @@ import java.util.List;
 import com.opencsv.bean.CsvBindByName;
 
 public class Movie {
-    
     private String[] genres;
-   
     private String[] keywords;
-   
     private String title;
-   
     private String cast;
-  
     private String director;
-    
-
 
     public Movie(String title, String director, String cast, String[] genres, String[] keywords) {
         this.title = title;
@@ -26,9 +19,7 @@ public class Movie {
     }
 
     public Movie(){
-
     }
-
 
     public String getTitle() {
         return title;

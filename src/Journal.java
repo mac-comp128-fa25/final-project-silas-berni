@@ -6,43 +6,45 @@ import java.util.HashMap;
  */
 
 public class Journal {
-    private HashMap <Movie, Integer> userMovies;
-
-    public Journal(){
-        userMovies = new HashMap<>();
-    }
+    public static HashMap <Movie, Integer> userMovies;
     
+        public Journal(){
+            userMovies = new HashMap<>();
+        }
 
-    /**
-    * Allows user to log a movie and its rating to the user's Journal
-    */
-    // public void logMovie(String title, int rating){
-    //     Movie m = allMovies.get(title);
-    //     if (m != null){
-    //         userMovies.put(m, rating);
-    //     }
-    // }
-
-    /**
-    * Checks if a movie is in the user's journal
-    */
-    public boolean hasWatched(Movie m) {
-        return userMovies.containsKey(m);
-    }
-
-    /**
-    * Gets the rating from a movie in the user's journal
-    */
-    public int getRating(Movie m) {
-        return userMovies.getOrDefault(m, -1); 
-    }
-
-
-    /**
-    * Returns all movies in the user's journal
-    */
-    public Collection<Movie> getWatchedMovies() {
-        return userMovies.keySet();
+        /**
+        * Checks if a movie is in the user's journal
+        */
+        public boolean hasWatched(Movie m) {
+            return userMovies.containsKey(m);
+        }
+    
+        /**
+        * Gets the rating from a movie in the user's journal
+        */
+        public int getRating(Movie m) {
+            return userMovies.getOrDefault(m, -1); 
+        }
+    
+        /**
+        * Returns all movies in the user's journal
+        */
+        public static Collection<Movie> getWatchedMovies() {
+            if (!userMovies.isEmpty()){
+                return userMovies.keySet();
+            } else {
+                return userMovies.keySet();
+            }
+        }
+        
+         /**
+        * Allows user to log a movie and its rating to the user's Journal
+        */
+        public static void addToUserMovies(String title, int rating){
+            HashMap <String, Movie>  movies= DataProcessor.getAllMovies();
+            Movie movieEntered = movies.get(title);
+            userMovies.putIfAbsent(movieEntered, rating);
+            userMovies.replace(movieEntered, rating);
     }
 
 }
