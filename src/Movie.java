@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.List;
 
 import com.opencsv.bean.CsvBindByName;
@@ -60,5 +61,14 @@ public class Movie {
     public void setDirector(String newDirector) {
         director = newDirector;
     }
+    
+    public String toString() {
+    return "Movie{" +
+            "title='" + title + '\'' +
+            ", director='" + director + '\'' +
+            ", genres=" + Arrays.toString(genres) +
+            ", keywords=" + Arrays.toString(keywords) +
+            '}';
+}
 }
 
