@@ -44,33 +44,53 @@ public class DataProcessor {
     
         public static void main(String[] args) {
             Scanner scanner = new Scanner(System.in);
-            System.out.println("What would you like to do?");
-            System.out.println("Enter 1 to see your journal");
-            System.out.println("Enter 2 to log a new movie");
-            System.out.println("Enter 3 to get movie recommendations: ");
-            int decision = scanner.nextInt();
-    
-            if (decision == 1){
-                Collection<Movie> watchedMovies = Journal.getWatchedMovies();
-                if (watchedMovies.isEmpty()){
-                    System.out.println("You haven't logged any movies. Please log at least one to be able to see your journal");
-                }
-            } // this is not working because we have to find a way to handle when the user has not logges any movies
-            
-            if (decision == 2){
-                System.out.print("Enter the title of the movie: ");
-                String title = scanner.nextLine();
-                scanner.nextLine();
-                System.out.print("Enter the rating for the movie (1 to 10): ");
-                int rating = scanner.nextInt(); 
-                scanner.nextLine(); 
-                Journal.addToUserMovies(title, rating);
-                System.out.println("Movie entered: Title: " + title + " Rating " + rating);
-            }
 
-            // if (decision == "3"){
-            //     // here we will have to add a call to our recommender
-            // }
+            while(true){
+                System.out.println("What would you like to do?");
+                System.out.println("Enter 1 to see your journal");
+                System.out.println("Enter 2 to log a new movie");
+                System.out.println("Enter 3 to get movie recommendations");
+                System.out.println("Enter 4 to exit");
+                
+                int decision = scanner.nextInt();
+                scanner.nextLine();
+        
+                if (decision == 1){
+                    Collection<Movie> watchedMovies = Journal.getWatchedMovies();
+                    if (watchedMovies.isEmpty()){
+                        System.out.println("You haven't logged any movies. Please log at least one to be able to see your journal");
+                    } else {
+                        System.out.println("Your movie journal:");
+                        for (Movie m : watchedMovies) {
+                            System.out.println(m + " | Rating: " + Journal.getRating(m));
+                        }
+                    }
+                }
+                
+                else if (decision == 2){
+                    System.out.println("Enter the title of the movie: ");
+                    String title = scanner.nextLine();
+                    scanner.nextLine();
+                    System.out.print("Enter the rating for the movie (1 to 10): ");
+                    int rating = scanner.nextInt(); 
+                    scanner.nextLine(); 
+                    Journal.addToUserMovies(title, rating);
+                    System.out.println("Movie entered: Title: " + title + " Rating: " + rating);
+                }
+
+                else if (decision == 3) {
+                    System.out.println("We have to figure this out");
+                }
+        
+                else if (decision == 4) {
+                    System.out.println("Goodbye!");
+                    break;
+                }
+        
+                else {
+                    System.out.println("Invalid option. Try again.");
+                }
+            }
 
             scanner.close();
     }

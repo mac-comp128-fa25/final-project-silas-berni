@@ -6,10 +6,10 @@ import java.util.HashMap;
  */
 
 public class Journal {
-    public static HashMap <Movie, Integer> userMovies;
+    private static HashMap<Movie, Integer> userMovies = new HashMap<>();
+
     
         public Journal(){
-            userMovies = new HashMap<>();
         }
 
         /**
@@ -22,7 +22,7 @@ public class Journal {
         /**
         * Gets the rating from a movie in the user's journal
         */
-        public int getRating(Movie m) {
+        public static int getRating(Movie m) {
             return userMovies.getOrDefault(m, -1); 
         }
     
@@ -30,11 +30,7 @@ public class Journal {
         * Returns all movies in the user's journal
         */
         public static Collection<Movie> getWatchedMovies() {
-            if (!userMovies.isEmpty()){
                 return userMovies.keySet();
-            } else {
-                return userMovies.keySet();
-            }
         }
         
          /**
