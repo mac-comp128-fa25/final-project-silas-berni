@@ -25,11 +25,11 @@ public class Movie {
         return title;
     }
 
-    private String getDirector() {
+    public String getDirector() {
         return director;
     }
 
-    private String getLeadActors() {
+    public String getLeadActors() {
         return cast;
     }
 
