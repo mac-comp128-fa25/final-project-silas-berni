@@ -33,7 +33,7 @@ public class Movie {
         return cast;
     }
 
-    private String[] getGenres() {
+    public String[] getGenres() {
         return genres;
     }
 

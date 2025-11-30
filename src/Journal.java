@@ -6,6 +6,7 @@ import java.util.HashMap;
  */
 
 public class Journal {
+
     private static HashMap<Movie, Integer> userMovies = new HashMap<>();
 
     
@@ -37,10 +38,10 @@ public class Journal {
         * Allows user to log a movie and its rating to the user's Journal
         */
         public static void addToUserMovies(String title, int rating){
-            HashMap <String, Movie>  movies= DataProcessor.getAllMovies();
-            Movie movieEntered = movies.get(title);
-            userMovies.putIfAbsent(movieEntered, rating);
-            userMovies.replace(movieEntered, rating);
+            Movie movie = DataProcessor.getAllMovies().get(title);
+            if (movie != null) {
+                userMovies.put(movie, rating);
+            }
     }
 
 }
