@@ -7,10 +7,10 @@ public class Movie {
     private String[] genres;
     private String[] keywords;
     private String title;
-    private String cast;
+    private String[] cast;
     private String director;
 
-    public Movie(String title, String director, String cast, String[] genres, String[] keywords) {
+    public Movie(String title, String director, String[] cast, String[] genres, String[] keywords) {
         this.title = title;
         this.director = director;
         this.cast = cast;
@@ -29,7 +29,7 @@ public class Movie {
         return director;
     }
 
-    public String getLeadActors() {
+    public String[] getLeadActors() {
         return cast;
     }
 
@@ -51,6 +51,10 @@ public class Movie {
 
     public void setDirector(String newDirector) {
         director = newDirector;
+    }
+
+    public void setCast(String[] newCast) {
+        cast = newCast;
     }
     
     public String toString() {

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -29,6 +31,20 @@ public class DataProcessor {
                 newMovie.setKeywords(nextLine[1].split(" "));
                 newMovie.setTitle(nextLine[2]);
                 newMovie.setDirector(nextLine[4]);
+
+                String[] unsortedNames = nextLine[3].split(" ");
+                ArrayList<String> sortedNames = new ArrayList<>();
+
+                for (int i = 0; i < unsortedNames.length; i += 2) {
+                    if (i + 1 < unsortedNames.length) {
+                        sortedNames.add(new String(unsortedNames[i] + " " + unsortedNames[i + 1]));
+                    }
+                }
+
+                String[] cast = new String[sortedNames.size()];
+                sortedNames.toArray(cast);
+                newMovie.setCast(cast);
+
                 allMovies.put(newMovie.getTitle(), newMovie);
             }
         } catch (Exception e) {
@@ -64,7 +80,7 @@ public class DataProcessor {
                     System.out.println("Your movie journal:");
                     for (Movie m : watchedMovies) {
                         System.out.println(m.getTitle() + ", directed by " + m.getDirector() + " and starring "
-                            + m.getLeadActors() + " | Rating: " + Journal.getRating(m));
+                            + Arrays.toString(m.getLeadActors()) + " | Rating: " + Journal.getRating(m));
                         System.out.println();
                     }
                 }
