@@ -37,6 +37,10 @@ public class Movie {
         return genres;
     }
 
+    public String[] getKeywords() {
+        return keywords;
+    }
+
     public void setTitle(String newTitle) {
         title = newTitle;
     }
