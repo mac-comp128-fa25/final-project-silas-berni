@@ -9,8 +9,11 @@ import java.util.Scanner;
 
 public class MovieJournalApp {
 
-    private static void showJournal() {
-        Collection<Movie> watchedMovies = Journal.getWatchedMovies();
+    private Journal journal;
+    private DataProcessor processor;
+
+    private static void showJournal(Journal journal) {
+        Collection<Movie> watchedMovies = journal.getWatchedMovies();
         if (watchedMovies.isEmpty()) {
             System.out.println(
                 "You haven't logged any movies. Please log at least one to be able to see your journal");
@@ -18,13 +21,13 @@ public class MovieJournalApp {
             System.out.println("Your movie journal:");
             for (Movie m : watchedMovies) {
                 System.out.println(m.getTitle() + ", directed by " + m.getDirector() + " and starring "
-                    + Arrays.toString(m.getLeadActors()) + " | Rating: " + Journal.getRating(m));
+                    + Arrays.toString(m.getLeadActors()) + " | Rating: " + journal.getRating(m));
                 System.out.println();
             }
         }
     }
 
-    private static void logMovie(Scanner scanner, HashMap<String, Movie> movies) {
+    private static void logMovie(Scanner scanner, HashMap<String, Movie> movies, Journal journal) {
         String title = "";
         while (true) {
             System.out.println("Enter the title of the movie: ");
@@ -57,7 +60,7 @@ public class MovieJournalApp {
 
         }
 
-        Journal.addToUserMovies(title, rating);
+        journal.addToUserMovies(title, rating);
         System.out.println("Movie entered: Title: " + title + " Rating: " + rating);
     }
 
@@ -69,7 +72,8 @@ public class MovieJournalApp {
 
         Scanner scanner = new Scanner(System.in);
         DataProcessor processor = new DataProcessor();
-        HashMap<String, Movie> allMovies = DataProcessor.getAllMovies();
+        HashMap<String, Movie> allMovies = processor.getAllMovies();
+        Journal journal = new Journal(processor);
 
         while (true) {
             System.out.println("What would you like to do?");
@@ -82,9 +86,9 @@ public class MovieJournalApp {
             scanner.nextLine();
 
             if (decision == 1) {
-                showJournal();
+                showJournal(journal);
             } else if (decision == 2) {
-                logMovie(scanner, allMovies);
+                logMovie(scanner, allMovies, journal);
             } else if (decision == 3) {
                 showRecommendations();
             } else if (decision == 4) {

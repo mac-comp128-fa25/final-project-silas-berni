@@ -11,7 +11,8 @@ public class Journal {
     private DataProcessor dataProcessor;
 
     
-        public Journal(){
+        public Journal(DataProcessor processor){
+            this.dataProcessor = processor;
         }
 
         /**

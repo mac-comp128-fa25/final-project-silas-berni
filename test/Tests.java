@@ -14,16 +14,18 @@ import org.junit.jupiter.api.Test;
 public class Tests {
     static DataProcessor processor;
     static HashMap<String, Movie> movies;
+    Journal journal;
 
     @BeforeAll
     static void setupAll() {
         processor = new DataProcessor();
         movies = processor.getAllMovies();
+        
     }
 
     @BeforeEach
     void resetJournal() {
-        Journal.getWatchedMovies().clear();
+        journal = new Journal(processor);
     }
 
     // Tests for data importing 
@@ -73,24 +75,24 @@ public class Tests {
     // Tests for Journal
     @Test
     void testAddMovieToJournal() {
-        Journal.addToUserMovies("Avatar", 9);
+        journal.addToUserMovies("Avatar", 9);
         Movie m = movies.get("Avatar");
 
-        assertTrue(Journal.hasWatched(m));
-        assertEquals(9, Journal.getRating(m));
+        assertTrue(journal.hasWatched(m));
+        assertEquals(9, journal.getRating(m));
     }
 
     @Test
     void testWatchedMoviesCount() {
-        Journal.addToUserMovies("Avatar", 9);
-        Journal.addToUserMovies("Tangled", 8);
+        journal.addToUserMovies("Avatar", 9);
+        journal.addToUserMovies("Tangled", 8);
 
-        assertEquals(2, Journal.getWatchedMovies().size());
+        assertEquals(2, journal.getWatchedMovies().size());
     }
 
     @Test
     void testDefaultRatingIsMinusOne() {
         Movie m = movies.get("Avatar");
-        assertEquals(-1, Journal.getRating(m));
+        assertEquals(-1, journal.getRating(m));
     }
 }
