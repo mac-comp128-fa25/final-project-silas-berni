@@ -18,9 +18,15 @@ public class DataProcessor {
 
 
     public DataProcessor() {
+        moviesGenre = new HashMap<>();
+        moviesActors = new HashMap<>();
+        moviesKeywords = new HashMap<>();
+        moviesDirector = new HashMap<>();
+        
         processMovies();
         buildCategoryMaps();
     }
+
 
 
     private void buildCategoryMaps() {
@@ -55,10 +61,9 @@ public class DataProcessor {
             } else {
                 moviesDirector.get(director).add(movie.getValue());
             }
-
-
         }
     }
+
 
     private void processMovies() {
         if (!allMovies.isEmpty()) {
@@ -100,6 +105,22 @@ public class DataProcessor {
 
     public static HashMap<String, Movie> getAllMovies() {
         return allMovies;
+    }
+
+    public HashMap<String, List<Movie>> getMoviesByGenre() {
+        return moviesGenre;
+    }
+    
+    public HashMap<String, List<Movie>> getMoviesByDirector() {
+        return moviesDirector;
+    }
+    
+    public HashMap<String, List<Movie>> getMoviesByKeywords() {
+        return moviesKeywords;
+    }
+    
+    public HashMap<String, List<Movie>> getMoviesByActors() {
+        return moviesActors;
     }
 }
 

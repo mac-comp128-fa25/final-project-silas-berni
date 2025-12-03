@@ -16,7 +16,7 @@ public class Journal {
         /**
         * Checks if a movie is in the user's journal
         */
-        public boolean hasWatched(Movie m) {
+        public static boolean hasWatched(Movie m) {
             return userMovies.containsKey(m);
         }
     
