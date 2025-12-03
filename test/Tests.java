@@ -19,7 +19,7 @@ public class Tests {
     @BeforeAll
     static void setupAll() {
         processor = new DataProcessor();
-        movies = processor.getAllMovies();
+        movies = processor.getAllMovies();  
         
     }
 
@@ -58,8 +58,21 @@ public class Tests {
    @Test
     void testGenreMapContainsAllGenres() {
         Map<String, List<Movie>> genreMap = processor.getMoviesByGenre();
+
         assertTrue(genreMap.containsKey("Action"));
-        assertEquals(genreMap.size(), 14); // it is not adding one movie
+        assertTrue(genreMap.containsKey("Adventure"));
+        assertTrue(genreMap.containsKey("Fantasy"));
+        assertTrue(genreMap.containsKey("Science"));
+        assertTrue(genreMap.containsKey("Fiction"));
+        assertTrue(genreMap.containsKey("Crime"));
+        assertTrue(genreMap.containsKey("Drama"));
+        assertTrue(genreMap.containsKey("Thriller"));
+        assertTrue(genreMap.containsKey("Animation"));
+        assertTrue(genreMap.containsKey("Family"));
+        assertTrue(genreMap.containsKey("Western"));
+        assertTrue(genreMap.containsKey("Comedy"));
+
+        assertEquals(12, genreMap.size());
     }
         
     @Test

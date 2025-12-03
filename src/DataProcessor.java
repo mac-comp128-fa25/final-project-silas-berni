@@ -30,6 +30,7 @@ public class DataProcessor {
     private void buildCategoryMaps() {
         for (Map.Entry<String, Movie> movie : allMovies.entrySet()) {
             for (String genre : movie.getValue().getGenres()) {
+                genre = genre.trim();
                 if (!moviesGenre.containsKey(genre)) {
                     moviesGenre.put(genre, new ArrayList<>());
                 }
@@ -73,7 +74,12 @@ public class DataProcessor {
             CSVReader reader = new CSVReader(inputStreamReader)) {
 
             String[] nextLine;
+            boolean firstLine = true;
             while ((nextLine = reader.readNext()) != null) {
+                if(firstLine) {
+                    firstLine = false;
+                    continue;
+                }
                 Movie newMovie = new Movie();
 
                 newMovie.setGenres(nextLine[0].split(" "));
