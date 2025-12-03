@@ -7,7 +7,8 @@ import java.util.HashMap;
 
 public class Journal {
 
-    private static HashMap<Movie, Integer> userMovies = new HashMap<>();
+    private HashMap<Movie, Integer> userMovies = new HashMap<>();
+    private DataProcessor dataProcessor;
 
     
         public Journal(){
@@ -16,29 +17,29 @@ public class Journal {
         /**
         * Checks if a movie is in the user's journal
         */
-        public static boolean hasWatched(Movie m) {
+        public boolean hasWatched(Movie m) {
             return userMovies.containsKey(m);
         }
     
         /**
         * Gets the rating from a movie in the user's journal
         */
-        public static int getRating(Movie m) {
+        public int getRating(Movie m) {
             return userMovies.getOrDefault(m, -1); 
         }
     
         /**
         * Returns all movies in the user's journal
         */
-        public static Collection<Movie> getWatchedMovies() {
+        public Collection<Movie> getWatchedMovies() {
                 return userMovies.keySet();
         }
         
          /**
         * Allows user to log a movie and its rating to the user's Journal
         */
-        public static void addToUserMovies(String title, int rating){
-            Movie movie = DataProcessor.getAllMovies().get(title);
+        public void addToUserMovies(String title, int rating){
+            Movie movie = dataProcessor.getAllMovies().get(title);
             if (movie != null) {
                 userMovies.put(movie, rating);
             }

@@ -18,7 +18,7 @@ public class Tests {
     @BeforeAll
     static void setupAll() {
         processor = new DataProcessor();
-        movies = DataProcessor.getAllMovies();
+        movies = processor.getAllMovies();
     }
 
     @BeforeEach

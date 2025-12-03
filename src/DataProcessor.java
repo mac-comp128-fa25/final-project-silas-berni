@@ -9,12 +9,11 @@ import java.io.InputStreamReader;
 
 public class DataProcessor {
 
-    private static HashMap<String, Movie> allMovies = new HashMap<>();
+    private HashMap<String, Movie> allMovies = new HashMap<>();
     private HashMap<String, List<Movie>> moviesGenre;
     private HashMap<String, List<Movie>> moviesActors;
     private HashMap<String, List<Movie>> moviesKeywords;
     private HashMap<String, List<Movie>> moviesDirector;
-    
 
 
     public DataProcessor() {
@@ -22,11 +21,10 @@ public class DataProcessor {
         moviesActors = new HashMap<>();
         moviesKeywords = new HashMap<>();
         moviesDirector = new HashMap<>();
-        
+
         processMovies();
         buildCategoryMaps();
     }
-
 
 
     private void buildCategoryMaps() {
@@ -34,33 +32,33 @@ public class DataProcessor {
             for (String genre : movie.getValue().getGenres()) {
                 if (!moviesGenre.containsKey(genre)) {
                     moviesGenre.put(genre, new ArrayList<>());
-                } else {
-                    moviesGenre.get(genre).add(movie.getValue());
                 }
+                moviesGenre.get(genre).add(movie.getValue());
+
             }
 
             for (String actor : movie.getValue().getLeadActors()) {
                 if (!moviesActors.containsKey(actor)) {
                     moviesActors.put(actor, new ArrayList<>());
-                } else {
-                    moviesActors.get(actor).add(movie.getValue());
                 }
+                moviesActors.get(actor).add(movie.getValue());
+
             }
 
             for (String keyword : movie.getValue().getKeywords()) {
                 if (!moviesKeywords.containsKey(keyword)) {
                     moviesKeywords.put(keyword, new ArrayList<>());
-                } else {
-                    moviesKeywords.get(keyword).add(movie.getValue());
                 }
+                moviesKeywords.get(keyword).add(movie.getValue());
+                
             }
 
             String director = movie.getValue().getDirector();
             if (!moviesDirector.containsKey(director)) {
                 moviesDirector.put(director, new ArrayList<>());
-            } else {
-                moviesDirector.get(director).add(movie.getValue());
             }
+            moviesDirector.get(director).add(movie.getValue());
+            
         }
     }
 
@@ -103,22 +101,22 @@ public class DataProcessor {
         }
     }
 
-    public static HashMap<String, Movie> getAllMovies() {
+    public HashMap<String, Movie> getAllMovies() {
         return allMovies;
     }
 
     public HashMap<String, List<Movie>> getMoviesByGenre() {
         return moviesGenre;
     }
-    
+
     public HashMap<String, List<Movie>> getMoviesByDirector() {
         return moviesDirector;
     }
-    
+
     public HashMap<String, List<Movie>> getMoviesByKeywords() {
         return moviesKeywords;
     }
-    
+
     public HashMap<String, List<Movie>> getMoviesByActors() {
         return moviesActors;
     }
