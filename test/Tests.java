@@ -83,8 +83,26 @@ public class Tests {
         assertEquals("Avatar", avatar.getTitle());  //It is not adding the first movie to action
     }
 
+    @Test
+    void testListInsidemap() {
+        Map<String, List<Movie>> genreMap = processor.getMoviesByGenre();
+        List<Movie> actionMovies = genreMap.get("Action");
+        assertEquals(actionMovies.size(), 18); // it is not adding one movie
+    }
     
-    
+    @Test
+    void testListInsidemap2() {
+        Map<String, List<Movie>> genreMap = processor.getMoviesByGenre();
+        List<Movie> crimeMovies = genreMap.get("Crime");
+        assertEquals(crimeMovies.size(), 3); // it is not adding one movie
+    }
+
+    @Test
+    void testListInsidemapCrime() {
+        Map<String, List<Movie>> genreMap = processor.getMoviesByGenre();
+        List<Movie> crimeMovies = genreMap.get("Crime");
+    }
+
     // Tests for Journal
     @Test
     void testAddMovieToJournal() {
