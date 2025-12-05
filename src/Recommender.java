@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -14,6 +15,23 @@ public class Recommender {
 
     public Recommender(Journal journal) {
         this.journal = journal;
+    }
+
+    private ArrayList<Movie> recommend (Journal userMovies, ArrayList<Movie> allMovies){
+        ArrayList<Movie> recommendations = new ArrayList<>(); 
+        
+        for(Movie inJournal : journal.getWatchedMovies()){
+            for (Movie inDataSet : allMovies){
+                if(!journal.getWatchedMovies().contains(inDataSet)){
+                    double similarity = similarityScore (inJournal, inDataSet);
+
+                    if (similarity > 0.7){
+                        recommendations.add(inDataSet);
+                    }
+                }
+            }
+        }
+        return recommendations;
     }
 
     private double similarityScore(Movie a, Movie b) {
