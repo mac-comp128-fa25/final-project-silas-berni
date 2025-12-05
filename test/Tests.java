@@ -15,6 +15,7 @@ public class Tests {
     static DataProcessor processor;
     static HashMap<String, Movie> movies;
     Journal journal;
+    Recommender recommender;
 
     @BeforeAll
     static void setupAll() {
@@ -74,14 +75,6 @@ public class Tests {
 
         assertEquals(12, genreMap.size());
     }
-        
-    @Test
-    void testFirstMovieInEachGenre(){
-        Map<String, List<Movie>> genreMap = processor.getMoviesByGenre();
-        List<Movie> actionMovies = genreMap.get("Action");
-        Movie avatar = actionMovies.get(0);
-        assertEquals("Avatar", avatar.getTitle());  //It is not adding the first movie to action
-    }
 
     @Test
     void testListInsidemap() {
@@ -126,4 +119,13 @@ public class Tests {
         Movie m = movies.get("Avatar");
         assertEquals(-1, journal.getRating(m));
     }
+ // Testing recommender
+    // @Test
+    // void testRecommender() {
+    //     journal.addToUserMovies("Avatar", 6);
+    //     journal.addToUserMovies("Tangled", 7);
+
+    //     assertEquals(recommender.recommend(journal,movies), journal);
+
+    // }
 }

@@ -10,6 +10,7 @@ public class Movie {
     private String title;
     private String[] cast;
     private String director;
+    private double similarityScore;
     private ArrayList<String> directorList = new ArrayList<>();;
 
     public Movie(String title, String director, String[] cast, String[] genres, String[] keywords) {
@@ -90,6 +91,14 @@ public class Movie {
 
     public void addDirector(String newDirector) {
         directorList.add(newDirector);
+    }
+
+    public double getSimilarity (){
+        return similarityScore;
+    }
+
+    public void setSimilarity (double newScore){
+        similarityScore = newScore;
     }
 
 

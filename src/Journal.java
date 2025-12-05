@@ -46,15 +46,15 @@ public class Journal {
         Movie movie = dataProcessor.getAllMovies().get(title);
         if (movie != null) {
             userMovies.put(movie, rating);
-            updateUserTasteProfile(movie);
+            // updateUserTasteProfile(movie);
         }
     }
 
-    public void updateUserTasteProfile(Movie movie) {
-        userTasteProfile.addGenres(movie.getGenres());
-        userTasteProfile.addCast(movie.getLeadActors());
-        userTasteProfile.addKeywords(movie.getKeywords());
-        userTasteProfile.addDirector(movie.getDirector());
-    }
+    // public void updateUserTasteProfile(Movie movie) {
+    //     userTasteProfile.addGenres(movie.getGenres());
+    //     userTasteProfile.addCast(movie.getLeadActors());
+    //     userTasteProfile.addKeywords(movie.getKeywords());
+    //     userTasteProfile.addDirector(movie.getDirector());
+    // }
 
 }

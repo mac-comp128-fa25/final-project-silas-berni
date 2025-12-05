@@ -1,7 +1,10 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 public class Recommender {
@@ -16,17 +19,20 @@ public class Recommender {
     public Recommender(Journal journal) {
         this.journal = journal;
     }
+    
+    //make sure this is sorted by similarityScore
+    private PriorityQueue<Movie> recommend(Journal userMovies, HashMap<String, Movie> allMovies) {
+        PriorityQueue<Movie> recommendations = new PriorityQueue();
 
-    private ArrayList<Movie> recommend (Journal userMovies, ArrayList<Movie> allMovies){
-        ArrayList<Movie> recommendations = new ArrayList<>(); 
-        
-        for(Movie inJournal : journal.getWatchedMovies()){
-            for (Movie inDataSet : allMovies){
-                if(!journal.getWatchedMovies().contains(inDataSet)){
-                    double similarity = similarityScore (inJournal, inDataSet);
+        for (Movie userMovie : journal.getWatchedMovies()) {
+            for (Map.Entry<String, Movie> movie : allMovies.entrySet()) {
+                if (!journal.getWatchedMovies().contains(movie.getValue())) {
+                    double similarity = similarityScore(userMovie, movie.getValue());
+                    similarity = similarity * journal.getRating(userMovie);
+                    movie.getValue().setSimilarity(similarity);
 
-                    if (similarity > 0.7){
-                        recommendations.add(inDataSet);
+                    if (similarity > 5) {
+                        recommendations.add(movie.getValue());
                     }
                 }
             }
@@ -46,11 +52,11 @@ public class Recommender {
     private double genreSimilarity(Movie a, Movie b) {
         Set<String> genresA = new HashSet<>();
         Set<String> genresB = new HashSet<>();
-        Set<String> union = new HashSet <> ();
-        Set<String> intersection = new HashSet <> ();
+        Set<String> union = new HashSet<>();
+        Set<String> intersection = new HashSet<>();
         Collections.addAll(genresA, a.getGenres());
         Collections.addAll(genresB, b.getGenres());
-        
+
         union.addAll(genresA);
         union.addAll(genresB);
 
@@ -64,11 +70,11 @@ public class Recommender {
     private double actorSimilarity(Movie a, Movie b) {
         Set<String> actorsA = new HashSet<>();
         Set<String> actorsB = new HashSet<>();
-        Set<String> union = new HashSet <> ();
-        Set<String> intersection = new HashSet <> ();
+        Set<String> union = new HashSet<>();
+        Set<String> intersection = new HashSet<>();
         Collections.addAll(actorsA, a.getLeadActors());
         Collections.addAll(actorsB, b.getLeadActors());
-        
+
         union.addAll(actorsA);
         union.addAll(actorsB);
 
@@ -82,11 +88,11 @@ public class Recommender {
     private double keywordSimilarity(Movie a, Movie b) {
         Set<String> keywordsA = new HashSet<>();
         Set<String> keywordsB = new HashSet<>();
-        Set<String> union = new HashSet <> ();
-        Set<String> intersection = new HashSet <> ();
+        Set<String> union = new HashSet<>();
+        Set<String> intersection = new HashSet<>();
         Collections.addAll(keywordsA, a.getKeywords());
         Collections.addAll(keywordsB, b.getKeywords());
-        
+
         union.addAll(keywordsA);
         union.addAll(keywordsB);
 
@@ -101,11 +107,11 @@ public class Recommender {
         String directorA = a.getDirector();
         String directorB = b.getDirector();
 
-        if((directorA.compareTo(directorB)) != 0) {
+        if ((directorA.compareTo(directorB)) != 0) {
             return 1;
         } else {
             return 0;
         }
     }
-    
+
 }
