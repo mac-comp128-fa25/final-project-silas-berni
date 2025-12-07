@@ -22,7 +22,7 @@ public class Recommender {
     
     //make sure this is sorted by similarityScore
     private PriorityQueue<Movie> recommend(Journal userMovies, HashMap<String, Movie> allMovies) {
-        PriorityQueue<Movie> recommendations = new PriorityQueue();
+        PriorityQueue<Movie> recommendations = new PriorityQueue<>(new MovieComparator());
 
         for (Movie userMovie : journal.getWatchedMovies()) {
             for (Map.Entry<String, Movie> movie : allMovies.entrySet()) {
