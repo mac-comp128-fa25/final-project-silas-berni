@@ -2,17 +2,25 @@
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 import java.util.Scanner;
-
-
 
 
 public class MovieJournalApp {
 
     private Journal journal;
     private DataProcessor processor;
+    private Recommender recommender;
+    private HashMap<String, Movie> allMovies;
 
-    private static void showJournal(Journal journal) {
+    public MovieJournalApp() {
+        processor = new DataProcessor();
+        journal = new Journal(processor);
+        allMovies = processor.getAllMovies();
+        recommender = new Recommender(journal);
+    }
+
+    private void showJournal(Journal journal) {
         Collection<Movie> watchedMovies = journal.getWatchedMovies();
         if (watchedMovies.isEmpty()) {
             System.out.println(
@@ -27,7 +35,7 @@ public class MovieJournalApp {
         }
     }
 
-    private static void logMovie(Scanner scanner, HashMap<String, Movie> movies, Journal journal) {
+    private void logMovie(Scanner scanner, HashMap<String, Movie> movies, Journal journal) {
         String title = "";
         while (true) {
             System.out.println("Enter the title of the movie: ");
@@ -64,16 +72,18 @@ public class MovieJournalApp {
         System.out.println("Movie entered: Title: " + title + " Rating: " + rating);
     }
 
-    private static void showRecommendations() {
-        System.out.println("We will figure this part out later");
+    private void showRecommendations() {
+        PriorityQueue<Movie> recommendations = recommender.recommend(journal, allMovies);
+        System.out.println("Here are five recommendations for you based on the movies you have watched!");
+        for (int i = 0; i < 5; i++) {
+            Movie m = recommendations.poll();
+            System.out.println(m.getTitle());
+        }
     }
 
-    public static void main(String[] args) {
+    public void run() {
 
         Scanner scanner = new Scanner(System.in);
-        DataProcessor processor = new DataProcessor();
-        HashMap<String, Movie> allMovies = processor.getAllMovies();
-        Journal journal = new Journal(processor);
 
         while (true) {
             System.out.println("What would you like to do?");
@@ -97,9 +107,13 @@ public class MovieJournalApp {
             } else {
                 System.out.println("You must select an option between 1 and 4, please try again");
             }
-            
+
         }
         scanner.close();
+    }
+
+    public static void main(String[] args) {
+        new MovieJournalApp().run();
     }
 }
 

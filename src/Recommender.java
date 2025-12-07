@@ -21,7 +21,7 @@ public class Recommender {
     }
     
     //make sure this is sorted by similarityScore
-    private PriorityQueue<Movie> recommend(Journal userMovies, HashMap<String, Movie> allMovies) {
+    public PriorityQueue<Movie> recommend(Journal userMovies, HashMap<String, Movie> allMovies) {
         PriorityQueue<Movie> recommendations = new PriorityQueue<>(new MovieComparator());
 
         for (Movie userMovie : journal.getWatchedMovies()) {
@@ -31,7 +31,7 @@ public class Recommender {
                     similarity = similarity * journal.getRating(userMovie);
                     movie.getValue().setSimilarity(similarity);
 
-                    if (similarity > 5) {
+                    if (similarity > 2.5) {
                         recommendations.add(movie.getValue());
                     }
                 }
