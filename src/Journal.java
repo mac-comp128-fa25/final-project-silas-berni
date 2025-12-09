@@ -11,7 +11,6 @@ public class Journal {
 
     private HashMap<Movie, Integer> userMovies = new HashMap<>();
     private DataProcessor dataProcessor;
-    private Movie userTasteProfile;
 
 
     public Journal(DataProcessor processor) {
@@ -49,12 +48,5 @@ public class Journal {
             // updateUserTasteProfile(movie);
         }
     }
-
-    // public void updateUserTasteProfile(Movie movie) {
-    //     userTasteProfile.addGenres(movie.getGenres());
-    //     userTasteProfile.addCast(movie.getLeadActors());
-    //     userTasteProfile.addKeywords(movie.getKeywords());
-    //     userTasteProfile.addDirector(movie.getDirector());
-    // }
 
 }
