@@ -74,10 +74,16 @@ public class MovieJournalApp {
 
     private void showRecommendations() {
         PriorityQueue<Movie> recommendations = recommender.recommend(journal, allMovies);
-        System.out.println("Here are five recommendations for you based on the movies you have watched!");
-        for (int i = 0; i < 5; i++) {
-            Movie m = recommendations.poll();
-            System.out.println(m.getTitle());
+        Collection<Movie> watchedMovies = journal.getWatchedMovies();
+        if (watchedMovies.isEmpty()) {
+            System.out.println(
+                "You haven't logged any movies. Please log at least one to be able to see your personalized recommendations");
+            } else{
+                System.out.println("Here are five recommendations for you based on the movies you have watched!");
+                for (int i = 0; i < 5; i++) {
+                    Movie m = recommendations.poll();
+                    System.out.println(m.getTitle());
+            }
         }
     }
 
