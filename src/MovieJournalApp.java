@@ -72,17 +72,50 @@ public class MovieJournalApp {
         System.out.println("Movie entered: Title: " + title + " Rating: " + rating);
     }
 
-    private void showRecommendations() {
+    private void showRecommendations(Scanner scanner) {
+        int recNumber = -1;
+
+        while (true) {
+            System.out.println("How many recommendations would you like? Please enter an integer greater than 0");
+            if (scanner.hasNextInt()) {
+                recNumber = scanner.nextInt();
+                scanner.nextLine();
+
+                if (recNumber > 0) {
+                    break;
+                } else {
+                    System.out.println("Please enter an integer greater than 0!");
+                }
+            } else {
+                System.out.println("Please enter an integer greater than 0!");
+                scanner.nextLine();
+            }
+        }
+
+
         PriorityQueue<Movie> recommendations = recommender.recommend(journal, allMovies);
         Collection<Movie> watchedMovies = journal.getWatchedMovies();
         if (watchedMovies.isEmpty()) {
             System.out.println(
                 "You haven't logged any movies. Please log at least one to be able to see your personalized recommendations");
-            } else{
-                System.out.println("Here are five recommendations for you based on the movies you have watched!");
-                for (int i = 0; i < 5; i++) {
-                    Movie m = recommendations.poll();
-                    System.out.println(m.getTitle());
+        } else {
+            System.out
+                .println("Here are " + recNumber + " recommendations for you based on the movies you have watched!");
+            for (int i = 0; i < recNumber; i++) {
+                Movie m = recommendations.poll();
+                if (m == null) {
+                    if (i >= 1) {
+                        System.out.println(
+                            "Oops, looks like these are all the movies we can recommend. Please input more movies that you like for better recommendations!");
+                        break;
+                    } else {
+                        System.out.println(
+                            "We aren't able to give any recommendations based on your journal. Please input more movies that you like for better recommendations!");
+                        break;
+                    }
+
+                }
+                System.out.println(m.getTitle());
             }
         }
     }
@@ -90,6 +123,7 @@ public class MovieJournalApp {
     public void run() {
 
         Scanner scanner = new Scanner(System.in);
+        int decision = -1;
 
         while (true) {
             System.out.println("What would you like to do?");
@@ -98,15 +132,21 @@ public class MovieJournalApp {
             System.out.println("Enter 3 to get movie recommendations");
             System.out.println("Enter 4 to exit");
 
-            int decision = scanner.nextInt();
-            scanner.nextLine();
+            if (scanner.hasNextInt()) {
+                decision = scanner.nextInt();
+                scanner.nextLine();
+            } else {
+                System.out.println("It appears you haven't entered a valid option. Please enter either 1, 2, 3 or 4.");
+                scanner.nextLine();
+                continue;
+            }
 
             if (decision == 1) {
                 showJournal(journal);
             } else if (decision == 2) {
                 logMovie(scanner, allMovies, journal);
             } else if (decision == 3) {
-                showRecommendations();
+                showRecommendations(scanner);
             } else if (decision == 4) {
                 System.out.println("Goodbye!");
                 break;

@@ -69,7 +69,7 @@ public class DataProcessor {
             return;
         }
 
-        try (InputStream inputStream = DataProcessor.class.getClassLoader().getResourceAsStream("data.csv");
+        try (InputStream inputStream = DataProcessor.class.getClassLoader().getResourceAsStream("FullDataSet.csv");
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             CSVReader reader = new CSVReader(inputStreamReader)) {
 
