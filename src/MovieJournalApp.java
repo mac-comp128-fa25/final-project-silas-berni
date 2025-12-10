@@ -13,6 +13,11 @@ public class MovieJournalApp {
     private Recommender recommender;
     private HashMap<String, Movie> allMovies;
 
+    /**
+     * Creates a new MovieJournalApp object
+     * Creates a new DataProcessor, Journal and Recommender
+     * Processes the whole data set of movies
+     */
     public MovieJournalApp() {
         processor = new DataProcessor();
         journal = new Journal(processor);
@@ -20,6 +25,10 @@ public class MovieJournalApp {
         recommender = new Recommender(journal);
     }
 
+    /**
+     * Displays the movies which the user has already entered
+     * @param journal the user's journal
+     */
     private void showJournal(Journal journal) {
         Collection<Movie> watchedMovies = journal.getWatchedMovies();
         if (watchedMovies.isEmpty()) {
@@ -35,6 +44,12 @@ public class MovieJournalApp {
         }
     }
 
+    /**
+     * Logs a user movie and its rating into their journal
+     * @param scanner
+     * @param movies
+     * @param journal
+     */
     private void logMovie(Scanner scanner, HashMap<String, Movie> movies, Journal journal) {
         String title = "";
         while (true) {
@@ -72,6 +87,10 @@ public class MovieJournalApp {
         System.out.println("Movie entered: Title: " + title + " Rating: " + rating);
     }
 
+    /**
+     * Displays a specified number of movie recommendations to the user based on their journal
+     * @param scanner
+     */
     private void showRecommendations(Scanner scanner) {
         int recNumber = -1;
 

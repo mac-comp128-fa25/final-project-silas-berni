@@ -20,7 +20,13 @@ public class Recommender {
         this.journal = journal;
     }
     
-    //make sure this is sorted by similarityScore
+    /**
+     * Compares all user movies to all other movies in the data set
+     * Builds a max heap of the most similar movies to recommend to the user
+     * @param userMovies All movies the user has entered
+     * @param allMovies All movies in the greater data set
+     * @return A max heap of Movie objects sorted by recommendation score
+     */
     public PriorityQueue<Movie> recommend(Journal userMovies, HashMap<String, Movie> allMovies) {
         PriorityQueue<Movie> recommendations = new PriorityQueue<>(new MovieComparator());
 
@@ -31,7 +37,7 @@ public class Recommender {
                     similarity = similarity * journal.getRating(userMovie);
                     movie.getValue().setSimilarity(similarity);
 
-                    if (similarity > 2.5) {
+                    if (similarity > 2) {
                         recommendations.add(movie.getValue());
                     }
                 }
@@ -40,6 +46,12 @@ public class Recommender {
         return recommendations;
     }
 
+    /**
+     * Computes the final weighted similarity score between two movies
+     * @param a The first movie being compared
+     * @param b The second movie being compared
+     * @return The similarity score between the two movies
+     */
     private double similarityScore(Movie a, Movie b) {
         double genreScore = genreSimilarity(a, b) * 0.35;
         double actorScore = actorSimilarity(a, b) * 0.25;
@@ -49,6 +61,12 @@ public class Recommender {
         return genreScore + actorScore + keywordScore + directorScore;
     }
 
+    /**
+     * Computes the Jaccard Similarity of the genres of two movies
+     * @param a The first movie being compared
+     * @param b The second movie being compared
+     * @return Genre similarity score
+     */
     private double genreSimilarity(Movie a, Movie b) {
         Set<String> genresA = new HashSet<>();
         Set<String> genresB = new HashSet<>();
@@ -67,6 +85,12 @@ public class Recommender {
         return score;
     }
 
+    /**
+     * Computes the Jaccard Similarity of the actors of two movies
+     * @param a The first movie being compared
+     * @param b The second movie being compared
+     * @return Actor similarity score
+     */
     private double actorSimilarity(Movie a, Movie b) {
         Set<String> actorsA = new HashSet<>();
         Set<String> actorsB = new HashSet<>();
@@ -85,6 +109,12 @@ public class Recommender {
         return score;
     }
 
+    /**
+     * Computes the Jaccard Similarity of the keywords of two movies
+     * @param a The first movie being compared
+     * @param b The second movie being compared
+     * @return Keywords similarity score
+     */
     private double keywordSimilarity(Movie a, Movie b) {
         Set<String> keywordsA = new HashSet<>();
         Set<String> keywordsB = new HashSet<>();
@@ -103,6 +133,12 @@ public class Recommender {
         return score;
     }
 
+    /**
+     * Computes the Jaccard Similarity of the directors of two movies
+     * @param a The first movie being compared
+     * @param b The second movie being compared
+     * @return Director similarity score
+     */
     private double directorSimilarity(Movie a, Movie b) {
         String directorA = a.getDirector();
         String directorB = b.getDirector();

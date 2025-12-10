@@ -15,7 +15,10 @@ public class DataProcessor {
     private HashMap<String, List<Movie>> moviesKeywords;
     private HashMap<String, List<Movie>> moviesDirector;
 
-
+    
+     /**
+      * Reads in the CSV File and creates sorted maps of all the movies by category
+      */
     public DataProcessor() {
         moviesGenre = new HashMap<>();
         moviesActors = new HashMap<>();
@@ -26,7 +29,10 @@ public class DataProcessor {
         buildCategoryMaps();
     }
 
-
+    /**
+     * Builds maps sorted by genre, actors, keywords, and directors.
+     * All movies which share a genre, actor, keyword, or director are added to a list as the value for that key
+     */
     private void buildCategoryMaps() {
         for (Map.Entry<String, Movie> movie : allMovies.entrySet()) {
             for (String genre : movie.getValue().getGenres()) {
@@ -63,7 +69,9 @@ public class DataProcessor {
         }
     }
 
-
+    /**
+     * Reads in the CSV file and creates a map of Movie objects with their titles as keys
+     */
     private void processMovies() {
         if (!allMovies.isEmpty()) {
             return;
