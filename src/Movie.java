@@ -9,6 +9,7 @@ public class Movie {
     private String[] cast;
     private String director;
     private double similarityScore;
+    private double popularity;
     private ArrayList<String> directorList = new ArrayList<>();;
 
     public Movie(String title, String director, String[] cast, String[] genres, String[] keywords) {
@@ -46,6 +47,10 @@ public class Movie {
         return directorList;
     }
 
+    public double getPopularity() {
+        return popularity;
+    }
+
     public void setTitle(String newTitle) {
         title = newTitle;
     }
@@ -64,6 +69,10 @@ public class Movie {
 
     public void setCast(String[] newCast) {
         cast = newCast;
+    }
+
+    public void setPopularity(double newPopularity) {
+        popularity = newPopularity;
     }
 
     public void addGenres(String[] additionalGenres) {

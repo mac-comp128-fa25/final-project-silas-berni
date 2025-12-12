@@ -94,6 +94,7 @@ public class DataProcessor {
                 newMovie.setKeywords(nextLine[1].split(" "));
                 newMovie.setTitle(nextLine[2]);
                 newMovie.setDirector(nextLine[4]);
+                newMovie.setPopularity(Double.parseDouble(nextLine[5]));
 
                 String[] unsortedNames = nextLine[3].split(" ");
                 ArrayList<String> sortedNames = new ArrayList<>();

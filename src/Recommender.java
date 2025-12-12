@@ -35,6 +35,7 @@ public class Recommender {
                 if (!journal.getWatchedMovies().contains(movie.getValue())) {
                     double similarity = similarityScore(userMovie, movie.getValue());
                     similarity = similarity * journal.getRating(userMovie);
+                    similarity = similarity * movie.getValue().getPopularity();
                     movie.getValue().setSimilarity(similarity);
 
                     if (similarity > 2) {
