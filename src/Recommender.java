@@ -46,7 +46,7 @@ public class Recommender {
                         similarity = similarity * popularity;
                         candidate.setSimilarity(similarity);
 
-                        if (similarity > 2) {
+                        if (similarity > 2 && !recommendations.contains(candidate)) {
                             recommendations.add(candidate);
                         }
 
