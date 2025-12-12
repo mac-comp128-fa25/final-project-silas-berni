@@ -77,7 +77,7 @@ public class DataProcessor {
             return;
         }
 
-        try (InputStream inputStream = DataProcessor.class.getClassLoader().getResourceAsStream("FullDataSet.csv");
+        try (InputStream inputStream = DataProcessor.class.getClassLoader().getResourceAsStream("data.csv");
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             CSVReader reader = new CSVReader(inputStreamReader)) {
 
