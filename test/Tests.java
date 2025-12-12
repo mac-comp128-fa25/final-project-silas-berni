@@ -12,20 +12,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class Tests {
-    static DataProcessor processor;
-    static HashMap<String, Movie> movies;
+    DataProcessor processor;
+    HashMap<String, Movie> movies;
     Journal journal;
     Recommender recommender;
 
-    @BeforeAll
-    static void setupAll() {
-        processor = new DataProcessor();
-        movies = processor.getAllMovies();  
-        
-    }
-
     @BeforeEach
-    void resetJournal() {
+    void setupAll() {
+        processor = new DataProcessor();
+        movies = processor.getAllMovies(); 
         journal = new Journal(processor);
     }
 
@@ -55,7 +50,6 @@ public class Tests {
     }
     
     // Tests for Category Maps
-    
    @Test
     void testGenreMapContainsAllGenres() {
         Map<String, List<Movie>> genreMap = processor.getMoviesByGenre();
@@ -80,20 +74,14 @@ public class Tests {
     void testListInsidemap() {
         Map<String, List<Movie>> genreMap = processor.getMoviesByGenre();
         List<Movie> actionMovies = genreMap.get("Action");
-        assertEquals(actionMovies.size(), 18); // it is not adding one movie
+        assertEquals(actionMovies.size(), 18); 
     }
     
     @Test
     void testListInsidemap2() {
         Map<String, List<Movie>> genreMap = processor.getMoviesByGenre();
         List<Movie> crimeMovies = genreMap.get("Crime");
-        assertEquals(crimeMovies.size(), 3); // it is not adding one movie
-    }
-
-    @Test
-    void testListInsidemapCrime() {
-        Map<String, List<Movie>> genreMap = processor.getMoviesByGenre();
-        List<Movie> crimeMovies = genreMap.get("Crime");
+        assertEquals(crimeMovies.size(), 3); 
     }
 
     // Tests for Journal
@@ -119,13 +107,7 @@ public class Tests {
         Movie m = movies.get("Avatar");
         assertEquals(-1, journal.getRating(m));
     }
- // Testing recommender
-    // @Test
-    // void testRecommender() {
-    //     journal.addToUserMovies("Avatar", 6);
-    //     journal.addToUserMovies("Tangled", 7);
-
-    //     assertEquals(recommender.recommend(journal,movies), journal);
-
-    // }
+ 
+    // Testing recommender
+    
 }
