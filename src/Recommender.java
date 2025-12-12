@@ -19,12 +19,13 @@ public class Recommender {
     public Recommender(Journal journal) {
         this.journal = journal;
     }
-    
+
     /**
-     * Compares all user movies to all other movies in the data set
-     * Builds a max heap of the most similar movies to recommend to the user
+     * Compares all user movies to all other movies in the data set Builds a max heap of the most
+     * similar movies to recommend to the user
+     * 
      * @param userMovies All movies the user has entered
-     * @param allMovies All movies in the greater data set
+     * @param allMovies  All movies in the greater data set
      * @return A max heap of Movie objects sorted by recommendation score
      */
     public PriorityQueue<Movie> recommend(Journal userMovies, HashMap<String, Movie> allMovies) {
@@ -33,13 +34,22 @@ public class Recommender {
         for (Movie userMovie : journal.getWatchedMovies()) {
             for (Map.Entry<String, Movie> movie : allMovies.entrySet()) {
                 if (!journal.getWatchedMovies().contains(movie.getValue())) {
-                    double similarity = similarityScore(userMovie, movie.getValue());
-                    similarity = similarity * journal.getRating(userMovie);
-                    similarity = similarity * movie.getValue().getPopularity();
-                    movie.getValue().setSimilarity(similarity);
+                    Movie candidate = movie.getValue();
+                    if (candidate.getPopularity() > 60) {
+                        double similarity = similarityScore(userMovie, candidate);
 
-                    if (similarity > 2) {
-                        recommendations.add(movie.getValue());
+                        double rating = journal.getRating(userMovie);
+                        double ratingWeight = 1 + (rating - 3) * 0.3;
+                        similarity = similarity * ratingWeight;
+
+                        double popularity = Math.log(candidate.getPopularity() + 1);
+                        similarity = similarity * popularity;
+                        candidate.setSimilarity(similarity);
+
+                        if (similarity > 2) {
+                            recommendations.add(candidate);
+                        }
+
                     }
                 }
             }
@@ -49,93 +59,56 @@ public class Recommender {
 
     /**
      * Computes the final weighted similarity score between two movies
+     * 
      * @param a The first movie being compared
      * @param b The second movie being compared
      * @return The similarity score between the two movies
      */
     private double similarityScore(Movie a, Movie b) {
-        double genreScore = genreSimilarity(a, b) * 0.35;
-        double actorScore = actorSimilarity(a, b) * 0.25;
-        double keywordScore = keywordSimilarity(a, b) * 0.15;
-        double directorScore = directorSimilarity(a, b) * 0.25;
+        double genreScore = genreSimilarity(a, b) * GENRE_WEIGHT;
+        double actorScore = actorSimilarity(a, b) * ACTORS_WEIGHT;
+        double keywordScore = keywordSimilarity(a, b) * KEYWORD_WEIGHT;
+        double directorScore = directorSimilarity(a, b) * DIRECTOR_WEIGHT;
 
         return genreScore + actorScore + keywordScore + directorScore;
     }
 
     /**
      * Computes the Jaccard Similarity of the genres of two movies
+     * 
      * @param a The first movie being compared
      * @param b The second movie being compared
      * @return Genre similarity score
      */
     private double genreSimilarity(Movie a, Movie b) {
-        Set<String> genresA = new HashSet<>();
-        Set<String> genresB = new HashSet<>();
-        Set<String> union = new HashSet<>();
-        Set<String> intersection = new HashSet<>();
-        Collections.addAll(genresA, a.getGenres());
-        Collections.addAll(genresB, b.getGenres());
-
-        union.addAll(genresA);
-        union.addAll(genresB);
-
-        intersection.addAll(genresA);
-        intersection.retainAll(genresB);
-
-        double score = (intersection.size() / union.size());
-        return score;
+        return jaccard(a.getGenres(), b.getGenres());
     }
 
     /**
      * Computes the Jaccard Similarity of the actors of two movies
+     * 
      * @param a The first movie being compared
      * @param b The second movie being compared
      * @return Actor similarity score
      */
     private double actorSimilarity(Movie a, Movie b) {
-        Set<String> actorsA = new HashSet<>();
-        Set<String> actorsB = new HashSet<>();
-        Set<String> union = new HashSet<>();
-        Set<String> intersection = new HashSet<>();
-        Collections.addAll(actorsA, a.getLeadActors());
-        Collections.addAll(actorsB, b.getLeadActors());
-
-        union.addAll(actorsA);
-        union.addAll(actorsB);
-
-        intersection.addAll(actorsA);
-        intersection.retainAll(actorsB);
-
-        double score = (intersection.size() / union.size());
-        return score;
+        return jaccard(a.getLeadActors(), b.getLeadActors());
     }
 
     /**
      * Computes the Jaccard Similarity of the keywords of two movies
+     * 
      * @param a The first movie being compared
      * @param b The second movie being compared
      * @return Keywords similarity score
      */
     private double keywordSimilarity(Movie a, Movie b) {
-        Set<String> keywordsA = new HashSet<>();
-        Set<String> keywordsB = new HashSet<>();
-        Set<String> union = new HashSet<>();
-        Set<String> intersection = new HashSet<>();
-        Collections.addAll(keywordsA, a.getKeywords());
-        Collections.addAll(keywordsB, b.getKeywords());
-
-        union.addAll(keywordsA);
-        union.addAll(keywordsB);
-
-        intersection.addAll(keywordsA);
-        intersection.retainAll(keywordsB);
-
-        double score = (intersection.size() / union.size());
-        return score;
+        return jaccard(a.getKeywords(), b.getKeywords());
     }
 
     /**
      * Computes the Jaccard Similarity of the directors of two movies
+     * 
      * @param a The first movie being compared
      * @param b The second movie being compared
      * @return Director similarity score
@@ -145,10 +118,24 @@ public class Recommender {
         String directorB = b.getDirector();
 
         if ((directorA.compareTo(directorB)) != 0) {
-            return 1;
-        } else {
             return 0;
+        } else {
+            return 1;
         }
+    }
+
+    private double jaccard(String[] a, String[] b) {
+        Set<String> A = new HashSet<>(Arrays.asList(a));
+        Set<String> B = new HashSet<>(Arrays.asList(b));
+
+        Set<String> intersection = new HashSet<>(A);
+        intersection.retainAll(B);
+        Set<String> union = new HashSet<>(A);
+        union.addAll(B);
+
+        if (union.size() == 0)
+            return 0.0;
+        return (double) (intersection.size() / union.size());
     }
 
 }

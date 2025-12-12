@@ -45,7 +45,6 @@ public class Journal {
         Movie movie = dataProcessor.getAllMovies().get(title);
         if (movie != null) {
             userMovies.put(movie, rating);
-            // updateUserTasteProfile(movie);
         }
     }
 
