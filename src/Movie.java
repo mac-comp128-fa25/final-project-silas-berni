@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
-
 public class Movie {
     private String[] genres;
     private String[] keywords;
@@ -107,8 +106,6 @@ public class Movie {
     public void setSimilarity (double newScore){
         similarityScore = newScore;
     }
-
-
     
     public String toString() {
     return "Movie{" +
@@ -117,6 +114,6 @@ public class Movie {
             ", genres=" + Arrays.toString(genres) +
             ", keywords=" + Arrays.toString(keywords) +
             '}';
-}
+    }   
 }
 

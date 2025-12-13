@@ -1,13 +1,17 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Set;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -22,9 +26,13 @@ public class Tests {
         processor = new DataProcessor();
         movies = processor.getAllMovies(); 
         journal = new Journal(processor);
+        recommender = new Recommender(journal);
     }
 
-    // Tests for data importing 
+    /**
+     * Tests for Data Processor
+     */
+     
     @Test
     void testMoviesLoaded() {
         assertFalse(movies.isEmpty());
@@ -49,42 +57,38 @@ public class Tests {
         assertEquals("Mandy Moore", cast[1]);
     }
     
-    // Tests for Category Maps
    @Test
-    void testGenreMapContainsAllGenres() {
+    void testGenreMapHasAllGenresFromDataset() {
         Map<String, List<Movie>> genreMap = processor.getMoviesByGenre();
 
-        assertTrue(genreMap.containsKey("Action"));
-        assertTrue(genreMap.containsKey("Adventure"));
-        assertTrue(genreMap.containsKey("Fantasy"));
-        assertTrue(genreMap.containsKey("Science"));
-        assertTrue(genreMap.containsKey("Fiction"));
-        assertTrue(genreMap.containsKey("Crime"));
-        assertTrue(genreMap.containsKey("Drama"));
-        assertTrue(genreMap.containsKey("Thriller"));
-        assertTrue(genreMap.containsKey("Animation"));
-        assertTrue(genreMap.containsKey("Family"));
-        assertTrue(genreMap.containsKey("Western"));
-        assertTrue(genreMap.containsKey("Comedy"));
+         Set<String> genresInData = new HashSet<>();
 
-        assertEquals(12, genreMap.size());
+        for (Movie movie : processor.getAllMovies().values()) {
+            genresInData.addAll(Arrays.asList(movie.getGenres()));
+        }
+        assertEquals(genresInData, genreMap.keySet());
     }
 
     @Test
-    void testListInsidemap() {
+    void testMoviesAreInCorrectGenreLists() {
         Map<String, List<Movie>> genreMap = processor.getMoviesByGenre();
-        List<Movie> actionMovies = genreMap.get("Action");
-        assertEquals(actionMovies.size(), 18); 
-    }
     
-    @Test
-    void testListInsidemap2() {
-        Map<String, List<Movie>> genreMap = processor.getMoviesByGenre();
-        List<Movie> crimeMovies = genreMap.get("Crime");
-        assertEquals(crimeMovies.size(), 3); 
+        for (Movie movie : processor.getAllMovies().values()) {
+            for (String genre : movie.getGenres()) {
+                assertTrue(
+                    genreMap.containsKey(genre)
+                );
+    
+                assertTrue(
+                    genreMap.get(genre).contains(movie)
+                );
+            }
+        }
     }
 
-    // Tests for Journal
+    /**
+     * Tests for Journal
+     */
     @Test
     void testAddMovieToJournal() {
         journal.addToUserMovies("Avatar", 9);
@@ -108,6 +112,68 @@ public class Tests {
         assertEquals(-1, journal.getRating(m));
     }
  
-    // Testing recommender
+   /**
+     * Tests for Recommender
+     */
+    @Test
+    void similarMovieRecommended() {
+        Movie watched = movies.get("Avatar");
+        journal.addToUserMovies("Avatar", 4);
+
+        PriorityQueue<Movie> recs =
+                recommender.recommend(journal, movies);
+
+        assertFalse(recs.isEmpty());
+
+        Movie top = recs.peek();
+        assertNotNull(top);
+        assertNotEquals(watched, top);
+    }  
     
+    @Test 
+    void sharedGenresRecommendation(){
+        Movie watched = movies.get("Avatar");
+        journal.addToUserMovies("Avatar", 4);
+
+        PriorityQueue<Movie> recs = recommender.recommend(journal, movies);
+        
+        Set<String> watchedGenres =
+            new HashSet<>(Arrays.asList(watched.getGenres()));
+        
+        boolean sameGenre = false;
+        for(Movie rec : recs){
+            for (String genre : rec.getGenres()){
+                if (watchedGenres.contains(genre)){
+                    sameGenre = true;
+                    break;
+                }
+            }
+            if (sameGenre) break;
+        }
+        assertTrue (sameGenre);
+    }
+
+    @Test 
+    void effectOfRatingOnRecs(){
+        journal.addToUserMovies("Avatar", 5);
+        int highRatingSize = recommender.recommend(journal, movies).size();
+
+        journal.addToUserMovies("Avatar", 1);
+        int lowRatingSize = recommender.recommend(journal, movies).size();
+
+        assertTrue(highRatingSize >= lowRatingSize);
+    }
+
+    @Test 
+    void effectOfPopularityOnRecs(){
+        journal.addToUserMovies("Avatar", 4);
+
+        PriorityQueue<Movie> recs =
+                recommender.recommend(journal, movies);
+
+        for (Movie m : recs) {
+            assertTrue(m.getPopularity() > 60);
+        }
+    }
 }
+
